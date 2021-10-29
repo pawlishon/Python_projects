@@ -1,6 +1,5 @@
-
-
 # https://algotrading101.com/learn/yahoo-finance-api-guide/
+from PyQTWorker import *
 import yfinance as yf
 import yahoo_fin.stock_info as si
 import pandas as pd
@@ -14,8 +13,11 @@ from datetime import date
 import csv
 from RatioExplanationWindow import *
 from DividendsWindow import *
-from PricesWindow import *
-
+from price_win_2 import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
+from reports import *
+from financial_statements import get_financial_statements
 
 
 def my_valuation(ticker):
@@ -96,11 +98,6 @@ def ResultJoin(my_list):
     return instrument_results
 
 
-def ExportToExcel(instrument_results):
-    global export_num
-    export_num = export_num + 1
-    instrument_results.to_excel('results_' + str(date.today()) + '_' + str(export_num) + '.xlsx', index=False)
-
 class App(QtWidgets.QWidget):
 
     def __init__(self, shared):
@@ -113,12 +110,10 @@ class App(QtWidgets.QWidget):
         self.shared = shared
         self.initUI()
 
-
     def initUI(self):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
         self.openFileNameDialog()
-
 
     def openFileNameDialog(self):
         options = QtWidgets.QFileDialog.Options()
@@ -128,6 +123,7 @@ class App(QtWidgets.QWidget):
         if fileName:
             self.shared['filename'] = fileName
             return fileName
+
 
 class pandasModel(QAbstractTableModel):
 
@@ -159,7 +155,7 @@ class FirstApp(Ui_MainWindow):
         self.textBrowser.setText('Welcome')
         window.setWindowTitle('Tool for stock evaluation - by Pawel Piatkowski')
         self.AddTicker.clicked.connect(self.showInstrument)
-        self.EvaluateButton.clicked.connect(self.Evaluate)
+        self.EvaluateButton.clicked.connect(self.thread)
         self.ClearButton.clicked.connect(self.ClearContent)
         self.ExportButton.clicked.connect(self.ExportContent)
         self.EvaluationProgress.setValue(0)
@@ -171,70 +167,86 @@ class FirstApp(Ui_MainWindow):
         self.DivButton.clicked.connect(self.DivHis)
         self.ForecastButton.clicked.connect(self.Prices)
         self.BrowseButton.clicked.connect(self.BrowseFiles)
+        self.reportButton.clicked.connect(self.reports)
+        self.instrument_list =[]
+        self.Final_df = pd.DataFrame()
+        self.export_number = 0
+        self.threadpool = QThreadPool()
+        self.futures = ()
+        self.price = pd.DataFrame()
+
+
+    def thread(self):
+        self.EvaluateButton.setEnabled(False)
+        worker = Worker(self.Evaluate)
+        worker.signals.result.connect(self.show_table)
+        worker.signals.progress.connect(self.progress_fn)
+        self.threadpool.start(worker)
 
     def showInstrument(self):
-        global instrument_list
-        instrument_list.append(self.InsertField.text())
+        self.instrument_list.append(self.InsertField.text())
         string = ''
-        for item in instrument_list:
+        for item in self.instrument_list:
             if string == '':
                 string = item + ', '
             else:
                 string = string + item + ', '
         self.textBrowser.setText(string)
 
-    def Evaluate(self):
-        global Final_df
-        # Final_df = ResultJoin(instrument_list)
-        Final_df = pd.DataFrame()
+    def Evaluate(self, progress_callback):
+        self.Final_df = ResultJoin(self.instrument_list)
+        self.Final_df = pd.DataFrame()
         i = 0
-        for ticker in instrument_list:
+        for ticker in self.instrument_list:
             temp = my_valuation(ticker)
-            Final_df = pd.concat([Final_df, temp], axis=0)
+            self.Final_df = pd.concat([self.Final_df, temp], axis=0)
             i = i + 1
-            progress = int(i/len(instrument_list) * 100)
-            self.EvaluationProgress.setValue(progress)
-        model = pandasModel(Final_df)
+            progress_callback.emit(int(i/len(self.instrument_list) * 100))
+        return self.Final_df
+
+    def progress_fn(self, n):
+        self.EvaluationProgress.setValue(n)
+
+    def show_table(self, data):
+        model = pandasModel(data)
         self.tableView.setModel(model)
+        self.EvaluateButton.setEnabled(True)
 
     def ClearContent(self):
-        global instrument_list
-        instrument_list = []
+        self.instrument_list = []
         self.textBrowser.setText('')
 
     def ExportContent(self):
-        ExportToExcel(Final_df)
+        self.ExportToExcel(self.Final_df)
 
     def Removal(self):
-        global instrument_list
-        instrument_list.pop()
+        self.instrument_list.pop()
         string = ''
-        for item in instrument_list:
+        for item in self.instrument_list:
             if string == '':
                 string = item + ', '
             else:
                 string = string + item + ', '
         self.textBrowser.setText(string)
 
-    def _message(self,text, title):
+    def _message(self, text, title):
         msg = QMessageBox()
         msg.setText(text)
         msg.setWindowTitle(title)
         msg.exec_()
 
     def ImportData(self):
-        global instrument_list
         path = self.DirectoryPath.text()
         if path.endswith('.csv'):
             try:
                 with open(path, newline='') as f:
                     reader = csv.reader(f)
                     data = list(reader)
-                instrument_list = []
+                self.instrument_list = []
                 for elem in data:
-                    instrument_list.append(elem[0])
+                    self.instrument_list.append(elem[0])
                 string = ''
-                for item in instrument_list:
+                for item in self.instrument_list:
                     if string == '':
                         string = item + ', '
                     else:
@@ -252,7 +264,6 @@ class FirstApp(Ui_MainWindow):
         self.DirectoryPath.setText(self._shared_memory.get('filename'))
 
     def Wiki(self):
-        global wiki_win
         self.wiki_win = QtWidgets.QMainWindow()
         self.ui2 = Ui_SecondWindow()
         self.ui2.setupUi(self.wiki_win)
@@ -262,10 +273,9 @@ class FirstApp(Ui_MainWindow):
         self.wiki_win.setWindowTitle('Ratio explanation')
 
     def ImportDow(self):
-        global instrument_list
-        instrument_list = instrument_list + si.tickers_dow()
+        self.instrument_list = self.instrument_list + si.tickers_dow()
         string = ''
-        for item in instrument_list:
+        for item in self.instrument_list:
             if string == '':
                 string = item + ', '
             else:
@@ -273,10 +283,9 @@ class FirstApp(Ui_MainWindow):
         self.textBrowser.setText(string)
 
     def ImportSP(self):
-        global instrument_list
-        instrument_list = instrument_list + si.tickers_sp500()
+        self.instrument_list = self.instrument_list + si.tickers_sp500()
         string = ''
-        for item in instrument_list:
+        for item in self.instrument_list:
             if string == '':
                 string = item + ', '
             else:
@@ -284,7 +293,6 @@ class FirstApp(Ui_MainWindow):
         self.textBrowser.setText(string)
 
     def DivHis(self):
-        global div_win
         self.div_win = QtWidgets.QMainWindow()
         self.ui = Ui_DivWindow()
         self.ui.setupUi(self.div_win)
@@ -309,34 +317,33 @@ class FirstApp(Ui_MainWindow):
             self._message('No dividend history or invalid identifier', 'Information')
 
     def Prices(self):
-        global price_win, interval
         self.price_win = QtWidgets.QMainWindow()
-        self.ui3 = Ui_Form()
+        self.ui3 = Ui_MainWindow2()
         self.ui3.setupUi(self.price_win)
         self.price_win.setWindowTitle('Price History')
         self.price_win.show()
         self.ui3.PriceShow.clicked.connect(self.showPrices)
-        interval = '1d'
+        self.interval = '1d'
         self.ui3.DailyInt.setChecked(True)
         self.ui3.MonthlyInt.clicked.connect(self.oneInt)
         self.ui3.DailyInt.clicked.connect(self.oneInt)
         self.ui3.WeeklyInt.clicked.connect(self.oneInt)
-        self.ui3.PredictButton.clicked.connect(self.useARIMA)
+        self.ui3.PredictButton.clicked.connect(self.thread_arima)
         self.ui3.PredictButton_2.clicked.connect(self.PriceInInterval)
+        self.ui3.progressBar.setValue(0)
 
     def showPrices(self):
-        global interval
         start_date = self.ui3.StartDate.date().toPyDate().strftime('%m/%d/%Y')
         end_date = self.ui3.EndDate.date().toPyDate().strftime('%m/%d/%Y')
         ticker = self.ui3.PriceTicker.text()
         if self.ui3.WeeklyInt.isChecked():
-            interval = '1wk'
+            self.interval = '1wk'
         elif self.ui3.MonthlyInt.isChecked():
-            interval = '1mo'
+            self.interval = '1mo'
         elif self.ui3.DailyInt.isChecked():
-            interval = '1d'
+            self.interval = '1d'
         try:
-            price = si.get_data(ticker, start_date=start_date, end_date=end_date, index_as_date=False, interval=interval)
+            price = si.get_data(ticker, start_date=start_date, end_date=end_date, index_as_date=False, interval=self.interval)
             self.ui3.PricePlot.canvas.axes.clear()
             self.ui3.PricePlot.canvas.axes.plot(price['date'], price['close'])
             self.ui3.PricePlot.canvas.axes.set_title('Prices Chart')
@@ -356,47 +363,139 @@ class FirstApp(Ui_MainWindow):
             self.ui3.WeeklyInt.setChecked(False)
             self.ui3.MonthlyInt.setChecked(False)
 
-    def useARIMA(self):
-        global interval,futures
+    def useARIMA(self, progress_callback):
         start_date = self.ui3.StartDate.date().toPyDate().strftime('%m/%d/%Y')
         end_date = self.ui3.EndDate.date().toPyDate().strftime('%m/%d/%Y')
         ticker = self.ui3.PriceTicker.text()
         if self.ui3.WeeklyInt.isChecked():
-            interval = '1wk'
+            self.interval = '1wk'
         elif self.ui3.MonthlyInt.isChecked():
-            interval = '1mo'
+            self.interval = '1mo'
         elif self.ui3.DailyInt.isChecked():
-            interval = '1d'
-        try:
-            price = si.get_data(ticker, start_date=start_date, end_date=end_date, interval=interval)
-            price['date'] = price.index
-            price.reset_index(drop=True, inplace=True)
-            futures = Stock_price_prediction.PreditctPrices(price,interval)
-            self.ui3.PricePlot.canvas.axes.clear()
-            self.ui3.PricePlot.canvas.axes.plot(price['date'], price['close'], color='blue', label='Actual Price')
-            self.ui3.PricePlot.canvas.axes.plot(futures[0], futures[1], color='red', label='Future Price')
-            self.ui3.PricePlot.canvas.axes.set_title('Prices Chart')
-            self.ui3.PricePlot.canvas.axes.legend()
-            self.ui3.PricePlot.canvas.draw()
-        except:
-            self._message('Invalid Ticker or date. It is also possible that provided data is '
-                          'not sufficient for stock price prediction.','Warning')
+            self.interval = '1d'
+
+        self.price = si.get_data(ticker, start_date=start_date, end_date=end_date, interval=self.interval)
+        self.price['date'] = self.price.index
+        self.price.reset_index(drop=True, inplace=True)
+        progress_callback.emit(10)
+        self.futures = Stock_price_prediction.PreditctPrices(self.price,self.interval, progress_callback)
+        return self.futures
+
+    def thread_arima(self):
+        self.ui3.PredictButton.setEnabled(False)
+        worker = Worker(self.useARIMA)
+        worker.signals.result.connect(self.plot_predictions)
+        worker.signals.error.connect(self.error_predictions)
+        worker.signals.progress.connect(self.progress_predict)
+        self.threadpool.start(worker)
+        self.ui3.progressBar.setValue(0)
+
+    def progress_predict(self, n):
+        self.ui3.progressBar.setValue(n)
+
+    def plot_predictions(self, predictions):
+        self.ui3.PricePlot.canvas.axes.clear()
+        self.ui3.PricePlot.canvas.axes.plot(self.price['date'], self.price['close'], color='blue', label='Actual Price')
+        self.ui3.PricePlot.canvas.axes.plot(predictions[0], predictions[1], color='red', label='Future Price')
+        self.ui3.PricePlot.canvas.axes.set_title('Prices Chart')
+        self.ui3.PricePlot.canvas.axes.legend()
+        self.ui3.PricePlot.canvas.draw()
+        self.ui3.PredictButton.setEnabled(True)
+
+    def error_predictions(self):
+        self._message('Invalid Ticker or date. It is also possible that provided data is '
+                      'not sufficient for stock price prediction.', 'Warning')
+        self.ui3.PredictButton.setEnabled(True)
 
     def PriceInInterval(self):
-        global interval,futures
         future_periods = int(self.ui3.FuturePeriods.text())
-        if isinstance(future_periods,int) and len(futures[1])>future_periods:
-            self.ui3.FuturePrice.setText(str(futures[1][future_periods]))
+        if isinstance(future_periods,int) and len(self.futures[1])>future_periods:
+            self.ui3.FuturePrice.setText(str(self.futures[1][future_periods]))
         else:
             self._message('Next interval value should be integer not greater than 10% of shown stock price history',
                           'Information')
 
+    def ExportToExcel(self,instrument_results):
+        self.export_number = self.export_number + 1
+        instrument_results.to_excel('results_' + str(date.today()) + '_' + str(self.export_number) + '.xlsx', index=False)
+
+    def reports(self):
+        self.report_win = QtWidgets.QMainWindow()
+        self.ui4 = Ui_MainWindow3()
+        self.ui4.setupUi(self.report_win)
+        self.report_win.show()
+        self.report_win.setWindowTitle('Report analysis')
+        self.report1 = pd.DataFrame()
+        self.report2 = pd.DataFrame()
+        self.ui4.reportButton_1.clicked.connect(self.report_1)
+        self.ui4.reportButton_2.clicked.connect(self.report_2)
+        self.ui4.comboBoxTickers.addItem('Ticker 1')
+        self.ui4.comboBoxTickers.addItem('Ticker 2')
+        self.ui4.comboBoxTickers.addItem('Both')
+        self._possible_features =['researchDevelopment','incomeBeforeTax','netIncome','sellingGeneralAdministrative','grossProfit','operatingIncome','interestExpense','totalRevenue','costOfRevenue','grossProfitMargin','taxPaid','netRatio','totalLiab','totalStockholderEquity','totalAssets','commonStock','otherCurrentAssets','retainedEarnings','treasuryStock','cash','totalCurrentLiabilities','shortLongTermDebt','propertyPlantEquipment','totalCurrentAssets','netTangibleAssets','shortTermInvestments','netReceivables','longTermDebt','inventory','currentRatio','debtToESRatio','longOverShortDebt','depreciation','capitalExpenditures', 'returnOnShareholdersEquity']
+        for i in self._possible_features:
+            self.ui4.comboBoxFeatures.addItem(i)
+        self.ui4.plotButton.clicked.connect(self.plot_features)
+
+    def report_1(self):
+        try:
+            ticker = self.ui4.tickerInput1.text()
+            self.report1 = get_financial_statements(ticker)
+            model = pandasModel(self.report1)
+            self.ui4.reportView1.setModel(model)
+        except:
+            self._message('Invalid ticker or no data for this identifier.', 'Information')
+
+    def report_2(self):
+        try:
+            ticker = self.ui4.tickerInput2.text()
+            self.report2 = get_financial_statements(ticker)
+            model = pandasModel(self.report2)
+            self.ui4.reportView2.setModel(model)
+        except:
+            self._message('Invalid ticker or no data for this identifier.', 'Information')
+
+    def plot_features(self):
+        ticker_option = str(self.ui4.comboBoxTickers.currentText())
+        feature_option = str(self.ui4.comboBoxFeatures.currentText())
+        self.ui4.plotArea.canvas.axes.clear()
+        if ticker_option == 'Ticker 1':
+            if len(self.report1)!=0:
+                x = self.report1.columns.to_list()[1:]
+                y = self.report1.loc[self.report1['Breakdown'] == feature_option].values.tolist()[0][1:]
+                self.ui4.plotArea.canvas.axes.plot(list(reversed(x)), list(reversed(y)))
+                self.ui4.plotArea.canvas.axes.set_title('Feature Chart')
+                self.ui4.plotArea.canvas.draw()
+            else:
+                self._message('Please get the report for Ticker 1.', 'Information')
+        elif ticker_option == 'Ticker 2':
+            if len(self.report2) != 0:
+                x = self.report2.columns.to_list()[1:]
+                y = self.report2.loc[self.report2['Breakdown'] == feature_option].values.tolist()[0][1:]
+                self.ui4.plotArea.canvas.axes.plot(list(reversed(x)), list(reversed(y)))
+                self.ui4.plotArea.canvas.axes.set_title('Feature Chart')
+                self.ui4.plotArea.canvas.draw()
+            else:
+                self._message('Please get the report for Ticker 2.', 'Information')
+        else:
+            if len(self.report1)!=0 and len(self.report2)!=0:
+                self.ui4.plotArea.canvas.axes.clear()
+                x1 = self.report1.columns.to_list()[1:]
+                y1 = self.report1.loc[self.report1['Breakdown'] == feature_option].values.tolist()[0][1:]
+                y2 = self.report2.loc[self.report2['Breakdown'] == feature_option].values.tolist()[0][1:]
+                self.ui4.plotArea.canvas.axes.plot(list(reversed(x1)), list(reversed(y1)), color='blue',
+                                                    label='First Ticker')
+                self.ui4.plotArea.canvas.axes.plot(list(reversed(x1)), list(reversed(y2)), color='red', label='Second Ticker')
+                self.ui4.plotArea.canvas.axes.set_title('Feature Chart')
+                self.ui4.plotArea.canvas.axes.legend()
+                self.ui4.plotArea.canvas.draw()
+            else:
+                self._message('Please get the reports for both tickers.', 'Information')
+
+
+
 
 def main():
-    global instrument_list, export_num, div_win
-    instrument_list = []
-    export_num = 0
-
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = FirstApp(MainWindow)

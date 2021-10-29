@@ -11,22 +11,7 @@ import yahoo_fin.stock_info as si
 
 warnings.filterwarnings("ignore")
 
-period = 1
-df = si.get_data('INTC', start_date='01/01/2020', end_date='06/06/2021', interval='1wk')
-df['date'] = df.index
-df.reset_index(drop=True, inplace=True)
-
-
-
-
-
-#plt.plot(df["date"], df["close"])
-#plt.title("Amazon stock price over time")
-#plt.xlabel("time")
-#plt.ylabel("price")
-#plt.show()
-
-def PreditctPrices(df,interval):
+def PreditctPrices(df,interval, progress_callback):
     train_data, test_data = df[0:int(len(df)*0.8)], df[int(len(df)*0.8):]
 
     training_data = train_data['close'].values
@@ -43,14 +28,17 @@ def PreditctPrices(df,interval):
         #print('p-value: %f' % result[1])
         d = d + 1
     #print(d)
-
+    progress_callback.emit(10)
     #Grid Search
     N_test_observations = len(test_data)
     lowest_MSE_err = 99999999
+    i=0
     for p in range(1,6):
         for q in range(1,6):
             history = [x for x in training_data]
             model_predictions = []
+            i = i + 1
+            progress_callback.emit(10 + round(int(i / 36 * 100)))
             try:
                 for time_point in range(N_test_observations):
                     model = ARIMA(history, order=(p,d,q))
@@ -81,7 +69,6 @@ def PreditctPrices(df,interval):
         true_test_value = test_data[time_point]
         history.append(true_test_value)
 
-
     # How the model did
     #test_set_range = df[int(len(df)*0.8):].date
     #plt.plot(test_set_range, model_predictions, color='blue', marker='o', linestyle='dashed',label='Predicted Price')
@@ -91,9 +78,6 @@ def PreditctPrices(df,interval):
     #plt.ylabel('Prices')
     #plt.legend()
     #plt.show()
-
-
-
 
     #Future predictions
     predicted_period = round(0.3 * len(df))
@@ -120,6 +104,7 @@ def PreditctPrices(df,interval):
             future_dates.append(df.date.iloc[-1] + relativedelta(months=+next_period))
     future_dates.insert(0,df.date.iloc[-1])
     future_predictions.insert(0,df.close.iloc[-1])
+    progress_callback.emit(100)
 
     return future_dates, future_predictions
 
