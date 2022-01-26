@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html style="font-size: 16px;">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="About the application">
+    <meta name="description" content="">
+    <meta name="page_type" content="np-template-header-footer-from-plugin">
+    <title>Financial Statements Analysis</title>
+      {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+{% block body %}{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='nicepage.css') }}" media="screen">
+<link rel="stylesheet" href="{{ url_for('static', filename='Stock-Evaluation.css') }}" media="screen">
+    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='nicepage.js') }}" defer=""></script>
+    <meta name="generator" content="Nicepage 4.1.0, nicepage.com">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i">
+    
+    
+    <script type="application/ld+json">{
+		"@context": "http://schema.org",
+		"@type": "Organization",
+		"name": "",
+		"logo": "{{ url_for('static', filename='images/default-logo.png') }}"
+}</script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="Stock Evaluation">
+    <meta property="og:type" content="website">
+  </head>
+  <body class="u-body"><header class="u-clearfix u-header u-header" id="sec-63f8"><div class="u-clearfix u-sheet u-sheet-1">
+        <a href="https://nicepage.com" class="u-image u-logo u-image-1">
+          <img src="{{ url_for('static', filename='images/default-logo.png') }}" class="u-logo-image u-logo-image-1">
+        </a>
+        <nav class="u-menu u-menu-dropdown u-offcanvas u-menu-1">
+          <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px;">
+            <a class="u-button-style u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-top-bottom-menu-spacing u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="#">
+              <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#menu-hamburger"></use></svg>
+              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><symbol id="menu-hamburger" viewBox="0 0 16 16" style="width: 16px; height: 16px;"><rect y="1" width="16" height="2"></rect><rect y="7" width="16" height="2"></rect><rect y="13" width="16" height="2"></rect>
+</symbol>
+</defs></svg>
+            </a>
+          </div>
+          <div class="u-custom-menu u-nav-container">
+            <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Home.html" style="padding: 10px 20px;">Home</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Stock-Evaluation.html" style="padding: 10px 20px;">Stock evaluation</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Financial-Statements.html" style="padding: 10px 20px;">Financial Statements Analysis</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Price-History.html" style="padding: 10px 20px;">Price History and Predictions</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Dividends-History.html" style="padding: 10px 20px;">Dividend History</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Download.html" style="padding: 10px 20px;">Download Desktop App</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="About.html" style="padding: 10px 20px;">About</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Contact.html" style="padding: 10px 20px;">Contact</a>
+</li></ul>
+          </div>
+          <div class="u-custom-menu u-nav-container-collapse">
+            <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
+              <div class="u-inner-container-layout u-sidenav-overflow">
+                <div class="u-menu-close"></div>
+                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Home.html" style="padding: 10px 20px;">Home</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Stock-Evaluation.html" style="padding: 10px 20px;">Stock evaluation</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Financial-Statements.html" style="padding: 10px 20px;">Financial Statements Analysis</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Price-History.html" style="padding: 10px 20px;">Price History and Predictions</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Dividends-History.html" style="padding: 10px 20px;">Dividend History</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Download.html" style="padding: 10px 20px;">Download Desktop App</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="About.html" style="padding: 10px 20px;">About</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Contact.html" style="padding: 10px 20px;">Contact</a>
+</li></ul>
+              </div>
+            </div>
+            <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
+          </div>
+        </nav>
+      </div></header>
+    <section class="u-align-left u-clearfix u-color-scheme-summer-time u-color-style-multicolor-1 u-palette-1-base u-section-1" id="sec-d990">
+      <div class="u-clearfix u-sheet u-sheet-1">
+         <h1>Financial Statements Analysis</h1>
+          <div class="top">
+            <div class="one">
+              <form action="report_comp_1" method="post" >
+                <label for="ticker1">Ticker 1: </label>
+                <input type="text" placeholder="Enter your Ticker" name="ticker1" value="" required >
+                <input type="submit" value="Submit" name="Submit" style= "color:black">
+            </form>
+                <p>{{ticker1}} {%if ticker1 != 'First Company'%}(values in millions){% endif %}</p>
+                {{ table1|safe }}
+                <br>
+                {% if table1 %}
+                <p>Ratios</p>
+                {% endif %}
+                {{ratios1|safe}}
+            </div>
+              <div class="two">
+              <form action="report_comp_2" method="post" >
+                <label for="ticker2">Ticker 2: </label>
+                <input type="text" placeholder="Enter your Ticker" name="ticker2" value="" required >
+                <input type="submit" value="Submit" name="Submit" style= "color:black">
+            </form>
+                  <p>{{ticker2}} {%if ticker2 != 'Second Company'%}(values in millions){% endif %}</p>
+                  {{ table2|safe }}
+                  <br>
+                  {% if table2 %}
+                  <p>Ratios</p>
+                  {% endif %}
+                  {{ratios2|safe}}
+              </div>
+          </div>
+          <div class="bottom">
+                <form action="plot_reports" method="post">
+                    <label for="ticker_menu"> Ticker :</label>
+                    <select name="ticker_menu" style= "color:black">
+                        <option value="0" selected>Both</option>
+                        <option value="1" >Ticker 1:</option>
+                        <option value="2" >Ticker 2:</option>
+                    </select>
+                    <label for="features_menu">Features: </label>
+                    <select name="features_menu" style= "color:black">
+                        <option value="0" selected>researchDevelopment </option>
+                        <option value="1">incomeBeforeTax</option>
+                        <option value="2">netIncome</option>
+                        <option value="3">sellingGeneralAdministrative</option>
+                        <option value="4">grossProfit</option>
+                        <option value="5">operatingIncome</option>
+                        <option value="6">interestExpense</option>
+                        <option value="7">totalRevenue</option>
+                        <option value="8">costOfRevenue</option>
+                        <option value="9">grossProfitMargin</option>
+                        <option value="10">taxPaid</option>
+                        <option value="11">netRatio</option>
+                        <option value="12">totalLiab</option>
+                        <option value="13">totalStockholderEquity</option>
+                        <option value="14">totalAssets</option>
+                        <option value="15">commonStock</option>
+                        <option value="16">otherCurrentAssets</option>
+                        <option value="17">retainedEarnings</option>
+                        <option value="18">treasuryStock</option>
+                        <option value="19">cash</option>
+                        <option value="20">totalCurrentLiabilities</option>
+                        <option value="21">shortLongTermDebt</option>
+                        <option value="22">propertyPlantEquipment</option>
+                        <option value="23">totalCurrentAssets</option>
+                        <option value="24">netTangibleAssets</option>
+                        <option value="25">shortTermInvestments</option>
+                        <option value="26">netReceivables</option>
+                        <option value="27">longTermDebt</option>
+                        <option value="28">inventory</option>
+                        <option value="29">currentRatio</option>
+                        <option value="30">debtToESRatio</option>
+                        <option value="31">longOverShortDebt</option>
+                        <option value="32">depreciation</option>
+                        <option value="33">capitalExpenditures</option>
+                        <option value="34">returnOnShareholdersEquity</option>
+                    </select>
+                    <input type="submit" value="Plot" name="Submit" style= "color:black">
+                </form>
+              <img src="{{ url_for('static', filename=plt_reports) }}" alt="Chart">
+          </div>
+      </div>
+    </section>
+    
+    
+    <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-93e4"><div class="u-clearfix u-sheet u-sheet-1">
+        <p class="u-small-text u-text u-text-variant u-text-1">Tool made for private purposes only,</p>
+      </div></footer>
+    
+    </section>
+  </body>
+</html>

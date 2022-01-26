@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html style="font-size: 16px;">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="About the application">
+    <meta name="description" content="">
+    <meta name="page_type" content="np-template-header-footer-from-plugin">
+    <title>Price History and Predictions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='nicepage.css') }}" media="screen">
+<link rel="stylesheet" href="{{ url_for('static', filename='Stock-Evaluation.css') }}" media="screen">
+    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='nicepage.js') }}" defer=""></script>
+    <meta name="generator" content="Nicepage 4.1.0, nicepage.com">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i">
+    
+    
+    <script type="application/ld+json">{
+		"@context": "http://schema.org",
+		"@type": "Organization",
+		"name": "",
+		"logo": "{{ url_for('static', filename='images/default-logo.png') }}"
+}</script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="Stock Evaluation">
+    <meta property="og:type" content="website">
+  </head>
+  <body class="u-body"><header class="u-clearfix u-header u-header" id="sec-63f8"><div class="u-clearfix u-sheet u-sheet-1">
+        <a href="https://nicepage.com" class="u-image u-logo u-image-1">
+          <img src="{{ url_for('static', filename='images/default-logo.png') }}" class="u-logo-image u-logo-image-1">
+        </a>
+        <nav class="u-menu u-menu-dropdown u-offcanvas u-menu-1">
+          <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px;">
+            <a class="u-button-style u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-top-bottom-menu-spacing u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="#">
+              <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#menu-hamburger"></use></svg>
+              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><symbol id="menu-hamburger" viewBox="0 0 16 16" style="width: 16px; height: 16px;"><rect y="1" width="16" height="2"></rect><rect y="7" width="16" height="2"></rect><rect y="13" width="16" height="2"></rect>
+</symbol>
+</defs></svg>
+            </a>
+          </div>
+          <div class="u-custom-menu u-nav-container">
+            <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Home.html" style="padding: 10px 20px;">Home</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Stock-Evaluation.html" style="padding: 10px 20px;">Stock evaluation</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Financial-Statements.html" style="padding: 10px 20px;">Financial Statements Analysis</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Price-History.html" style="padding: 10px 20px;">Price History and Predictions</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Dividends-History.html" style="padding: 10px 20px;">Dividend History</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Download.html" style="padding: 10px 20px;">Download Desktop App</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="About.html" style="padding: 10px 20px;">About</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Contact.html" style="padding: 10px 20px;">Contact</a>
+</li></ul>
+          </div>
+          <div class="u-custom-menu u-nav-container-collapse">
+            <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
+              <div class="u-inner-container-layout u-sidenav-overflow">
+                <div class="u-menu-close"></div>
+                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Home.html" style="padding: 10px 20px;">Home</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Stock-Evaluation.html" style="padding: 10px 20px;">Stock evaluation</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Financial-Statements.html" style="padding: 10px 20px;">Financial Statements Analysis</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Price-History.html" style="padding: 10px 20px;">Price History and Predictions</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Dividends-History.html" style="padding: 10px 20px;">Dividend History</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Download.html" style="padding: 10px 20px;">Download Desktop App</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="About.html" style="padding: 10px 20px;">About</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Contact.html" style="padding: 10px 20px;">Contact</a>
+</li></ul>
+              </div>
+            </div>
+            <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
+          </div>
+        </nav>
+      </div></header>
+    <section class="u-align-left u-clearfix u-color-scheme-summer-time u-color-style-multicolor-1 u-palette-1-base u-section-1" id="sec-d990">
+      <div class="u-clearfix u-sheet u-sheet-1">
+         <h1>Price History and Predictions</h1>
+          <br>
+          <div class="one">
+          <div class="form-center">
+            <form action="prices" method="post" >
+            <label for="ticker">Ticker: </label>
+            <input type="text" placeholder="Enter your Ticker" name="ticker" value="" required >
+                <br>
+                <br>
+            <label for="start_date">Start date: </label>
+            <input type="date" value="2000-01-01" name="start_date" min="2000-01-01" style= "color:black">
+                <br>
+                <br>
+            <label for="end_date">End date: </label>
+            <input type="date" value="2010-01-01" name="end_date" min="2000-01-01" style= "color:black">
+                <br>
+                <br>
+            <label for="menu">Interval: </label>
+            <select name="menu" style= "color:black">
+            <option value="0" selected>Daily</option>
+            <option value="1">Weekly</option>
+            <option value="2">Monthly</option>
+            </select>
+                <br>
+                <br>
+            <input type="submit" value="Submit" name="Submit" style= "color:black">
+        </form>
+              </div>
+              </div>
+          <br>
+          <div class="bottom">
+              <p>Chart</p>
+              <img src="{{ url_for('static', filename=plt) }}" alt="Chart">
+          </div>
+          <form action="predict" method="post" >
+            <input type="submit" value="Predict" name="Submit" style= "color:black">
+              </form>
+          <form action="price_in_intervals" method="post" >
+              <label for="interval_no">Stock price in next </label>
+            <input type="text" placeholder="Insert number of intervals" name="interval_no" value="" required >
+              <label for="Submit">intervals is  </label>
+              <br>
+              <br>
+            <input type="submit" value="Submit" name="Submit" style= "color:black">
+              </form>
+      </div>
+
+    </section>
+    
+    
+    <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-93e4"><div class="u-clearfix u-sheet u-sheet-1">
+        <p class="u-small-text u-text u-text-variant u-text-1">Tool made for private purposes only,</p>
+      </div></footer>
+    
+    </section>
+  </body>
+</html>
