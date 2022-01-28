@@ -15,12 +15,12 @@ app.secret_key = 'h432hi5olkj3h5i5hi3o2hi'
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('Home.html')
 
 
 @app.route('/Home.html')
 def home_alternative():
-    return render_template('home.html')
+    return render_template('Home.html')
 
 
 @app.route('/About.html')
