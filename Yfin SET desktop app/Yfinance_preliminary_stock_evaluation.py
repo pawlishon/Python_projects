@@ -16,6 +16,8 @@ from view.reports import *
 from model.financial_statements import get_financial_statements
 from helpers.pandas_model import pandasModel
 from helpers.file_dialog import App
+import os
+import importlib
 
 
 class FirstApp(Ui_MainWindow):
@@ -298,18 +300,24 @@ class FirstApp(Ui_MainWindow):
     def report_1(self):
         try:
             ticker = self.ui4.tickerInput1.text()
-            self.report1 = get_financial_statements(ticker)
+            self.ui4.t1_Label.setText(ticker.upper()+' (values in millions): ')
+            self.report1, self.ratios1 = get_financial_statements(ticker)
             model = pandasModel(self.report1)
+            model2 = pandasModel(self.ratios1)
             self.ui4.reportView1.setModel(model)
+            self.ui4.reportView1_2.setModel(model2)
         except:
             self._message('Invalid ticker or no data for this identifier.', 'Information')
 
     def report_2(self):
         try:
             ticker = self.ui4.tickerInput2.text()
-            self.report2 = get_financial_statements(ticker)
+            self.ui4.t2_Label.setText(ticker.upper() + ' (values in millions): ')
+            self.report2, self.ratios2 = get_financial_statements(ticker)
             model = pandasModel(self.report2)
+            model2 = pandasModel(self.ratios2)
             self.ui4.reportView2.setModel(model)
+            self.ui4.reportView2_2.setModel(model2)
         except:
             self._message('Invalid ticker or no data for this identifier.', 'Information')
 
@@ -319,8 +327,9 @@ class FirstApp(Ui_MainWindow):
         self.ui4.plotArea.canvas.axes.clear()
         if ticker_option == 'Ticker 1':
             if len(self.report1)!=0:
-                x = self.report1.columns.to_list()[1:]
-                y = self.report1.loc[self.report1['Breakdown'] == feature_option].values.tolist()[0][1:]
+                join_table = pd.concat([self.report1, self.ratios1])
+                x = join_table.columns.to_list()[1:]
+                y = join_table.loc[join_table['Breakdown'] == feature_option].values.tolist()[0][1:]
                 self.ui4.plotArea.canvas.axes.plot(list(reversed(x)), list(reversed(y)))
                 self.ui4.plotArea.canvas.axes.set_title('Feature Chart')
                 self.ui4.plotArea.canvas.draw()
@@ -328,8 +337,9 @@ class FirstApp(Ui_MainWindow):
                 self._message('Please get the report for Ticker 1.', 'Information')
         elif ticker_option == 'Ticker 2':
             if len(self.report2) != 0:
-                x = self.report2.columns.to_list()[1:]
-                y = self.report2.loc[self.report2['Breakdown'] == feature_option].values.tolist()[0][1:]
+                join_table = pd.concat([self.report2, self.ratios2])
+                x = join_table.columns.to_list()[1:]
+                y = join_table.loc[join_table['Breakdown'] == feature_option].values.tolist()[0][1:]
                 self.ui4.plotArea.canvas.axes.plot(list(reversed(x)), list(reversed(y)))
                 self.ui4.plotArea.canvas.axes.set_title('Feature Chart')
                 self.ui4.plotArea.canvas.draw()
@@ -337,10 +347,12 @@ class FirstApp(Ui_MainWindow):
                 self._message('Please get the report for Ticker 2.', 'Information')
         else:
             if len(self.report1)!=0 and len(self.report2)!=0:
+                join_table1 = pd.concat([self.report1, self.ratios1])
+                join_table2 = pd.concat([self.report2, self.ratios2])
                 self.ui4.plotArea.canvas.axes.clear()
-                x1 = self.report1.columns.to_list()[1:]
-                y1 = self.report1.loc[self.report1['Breakdown'] == feature_option].values.tolist()[0][1:]
-                y2 = self.report2.loc[self.report2['Breakdown'] == feature_option].values.tolist()[0][1:]
+                x1 = join_table1.columns.to_list()[1:]
+                y1 = join_table1.loc[join_table1['Breakdown'] == feature_option].values.tolist()[0][1:]
+                y2 = join_table2.loc[join_table2['Breakdown'] == feature_option].values.tolist()[0][1:]
                 self.ui4.plotArea.canvas.axes.plot(list(reversed(x1)), list(reversed(y1)), color='blue',
                                                     label='First Ticker')
                 self.ui4.plotArea.canvas.axes.plot(list(reversed(x1)), list(reversed(y2)), color='red', label='Second Ticker')
@@ -363,4 +375,8 @@ def main():
 
 
 if __name__ == '__main__':
+    if '_PYIBoot_SPLASH' in os.environ and importlib.util.find_spec("pyi_splash"):
+        import pyi_splash #It may show an error in your IDE but it's fine
+        pyi_splash.update_text('UI Loaded ...')
+        pyi_splash.close()
     main()

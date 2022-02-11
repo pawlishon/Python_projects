@@ -1,6 +1,7 @@
 import pandas as pd
 import yahoo_fin.stock_info as si
 import warnings
+import numpy as np
 warnings.filterwarnings('ignore')
 
 def get_financial_statements(ticker):
@@ -19,9 +20,9 @@ def get_financial_statements(ticker):
 
     cs_valid_pos = ['capitalExpenditures', 'issuanceOfStock', 'repurchaseOfStock', 'depreciation']
 
-    income_statement_valid = income_statement[income_statement.index.isin(is_valid_pos)]
-    balance_sheet_valid = balance_sheet[balance_sheet.index.isin(bs_valid_pos)]
-    cash_flow_valid = cash_flow[cash_flow.index.isin(cs_valid_pos)]
+    income_statement_valid = income_statement[income_statement.index.isin(is_valid_pos)].apply(lambda x: x/1000000)
+    balance_sheet_valid = balance_sheet[balance_sheet.index.isin(bs_valid_pos)].apply(lambda x: x/1000000)
+    cash_flow_valid = cash_flow[cash_flow.index.isin(cs_valid_pos)].apply(lambda x: x/1000000)
 
 
     income_statement_valid.loc['grossProfitMargin'] = income_statement_valid.loc['grossProfit'] / income_statement_valid.loc['totalRevenue']
@@ -53,4 +54,14 @@ def get_financial_statements(ticker):
         cols.append(col.strftime('%d-%m-%Y'))
     master_table.columns= cols
     master_table = master_table.reset_index()
-    return master_table
+    ratios_names = {'researchDevelopment', 'sellingGeneralAdministrative', 'interestExpense', 'grossProfitMargin',
+                    'taxPaid', 'netRatio', 'currentRatio', 'debtToESRatio', 'depreciation',
+                    'returnOnShareholdersEquity'}
+    ratios = master_table.loc[master_table['Breakdown'].isin(ratios_names)]
+    master_table = master_table.loc[~master_table['Breakdown'].isin(ratios_names)]
+    for column in master_table.columns:
+        if column != 'Breakdown':
+            master_table[column] = master_table[column].astype(int)
+
+    return master_table, ratios
+
