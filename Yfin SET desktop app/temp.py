@@ -1,15 +1,15 @@
-import matplotlib.pyplot as plt
-from datetime import date
-import os
+import requests
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 
-data = si.get_dividends(ticker, start_date)
-data = data.reset_index()
-data.columns = ['Date', 'Amount USD', 'Ticker']
+driver = webdriver.Chrome(ChromeDriverManager().install())
+driver.get('https://www.morningstar.com/stocks/xnas/fb/quote')
+page = requests.get('https://www.morningstar.com/stocks/xnas/fb/quote')
+text = page.text
+soup = BeautifulSoup(driver.page_source)
+for div in soup.findAll('div', {'class': 'dp-pair'}):
+    if div.find('div', {"class": "dp-name"}).text in ('Price/Sales', 'Price/Book'):
+        print(div.find('div', {"class": "dp-name"}).text.strip(), div.find('div', {"class": "dp-value"}).text.strip())
 
-fig = plt.figure()
-plt.plot(data['Date'], data['Amount USD'])
-plt.show()
-plt.savefig('/static/images/plot_'+str(date.today())+'.png')
-
-os.listdir(r'C:\Users\6112272\PycharmProjects\url-shortener\static\images')
-os.remove('C:\Users\\6112272\PycharmProjects\url-shortener\static\images\\'+'plot_2022-01-07.png')
+        print(div)

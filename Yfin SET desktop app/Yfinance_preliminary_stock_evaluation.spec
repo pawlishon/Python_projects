@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(['Yfinance_preliminary_stock_evaluation.py'],
-             pathex=['C:\\Users\\6112272\\PycharmProjects\\git_test_repo'],
+             pathex=['C:\\Users\\6112272\\My Projects\\Python_projects\\Yfin SET desktop app'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -19,26 +19,30 @@ a = Analysis(['Yfinance_preliminary_stock_evaluation.py'],
              noarchive=False)
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
+splash = Splash('./splash.png',
+                binaries=a.binaries,
+                datas=a.datas,
+                text_pos=None,
+                text_size=12,
+                minify_script=True)
 
 exe = EXE(pyz,
-          a.scripts, 
+          a.scripts,
+          a.binaries,
+          a.zipfiles,
+          a.datas, 
+          splash, 
+          splash.binaries,
           [],
-          exclude_binaries=True,
           name='Yfinance_preliminary_stock_evaluation',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
           upx=True,
-          console=True,
+          upx_exclude=[],
+          runtime_tmpdir=None,
+          console=False,
           disable_windowed_traceback=False,
           target_arch=None,
           codesign_identity=None,
-          entitlements_file=None )
-coll = COLLECT(exe,
-               a.binaries,
-               a.zipfiles,
-               a.datas, 
-               strip=False,
-               upx=True,
-               upx_exclude=[],
-               name='Yfinance_preliminary_stock_evaluation')
+          entitlements_file=None , icon='logo.ico')

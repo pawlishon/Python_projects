@@ -32,13 +32,13 @@ class FirstApp(Ui_MainWindow):
         self.EvaluationProgress.setValue(0)
         self.RemoveLastButton.clicked.connect(self.Removal)
         self.ImportButton.clicked.connect(self.ImportData)
-        self.WikiButton.clicked.connect(self.Wiki)
+        #self.WikiButton.clicked.connect(self.Wiki)
         self.DowButton.clicked.connect(self.ImportDow)
         self.SPButton.clicked.connect(self.ImportSP)
-        self.DivButton.clicked.connect(self.DivHis)
-        self.ForecastButton.clicked.connect(self.Prices)
+        #self.DivButton.clicked.connect(self.DivHis)
+        #self.ForecastButton.clicked.connect(self.Prices)
         self.BrowseButton.clicked.connect(self.BrowseFiles)
-        self.reportButton.clicked.connect(self.reports)
+        #self.reportButton.clicked.connect(self.reports)
         self.instrument_list =[]
         self.Final_df = pd.DataFrame()
         self.export_number = 0
