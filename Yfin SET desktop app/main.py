@@ -10,19 +10,35 @@ class MenuController(Ui_MainWindow):
         self.bind_events()
 
     def bind_events(self):
-        # self.actionPrice_History.triggered.connect(self._clicked_show_price_history)
+        self.actionPrice_History.triggered.connect(self._clicked_show_price_history)
         # self.actionReport_Analysis.triggered.connect(self._clicked_show_report_analysis)
         # self.actionCandlestick_pattern_recognition.triggered.connect(self._clicked_show_pattern_recognition)
         self.actionStock_Ratios.triggered.connect(self._clicked_show_stock_ratios)
-        # self.actionTicker_dividend_history.triggered.connect(self._clicked_show_dividend_history)
+        self.actionTicker_dividends_history.triggered.connect(self._clicked_show_dividend_history)
         # self.actionValuation_of_Stock_price.triggered.connect(self._clicked_show_valuation_of_stock)
-        # self.actionRatio_Explanation.triggered.connect(self._clicked_show_ratio_explanation)
+        self.actionRatio_Explanation.triggered.connect(self._clicked_show_ratio_explanation)
         # self.actionManual_in_Polish.triggered.connect(self._clicked_show_manual)
 
     def _clicked_show_stock_ratios(self):
         from controller.stock_ratios import StockRatios
         stock_ratios_controller = StockRatios()
         stock_ratios_controller.exec_()
+
+    def _clicked_show_dividend_history(self):
+        from controller.div_his_controller import DividendHistory
+        div_controller = DividendHistory()
+        div_controller.exec_()
+
+    def _clicked_show_ratio_explanation(self):
+        from controller.ratio_explanation import RatioExplanation
+        re_controller = RatioExplanation()
+        re_controller.exec_()
+
+    def _clicked_show_price_history(self):
+        from controller.price_controller import ArimaPredictions
+        ap_controller = ArimaPredictions()
+        ap_controller.exec_()
+
 
 def main():
     app = QtWidgets.QApplication(sys.argv)

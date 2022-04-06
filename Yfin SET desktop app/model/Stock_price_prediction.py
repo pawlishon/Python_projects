@@ -1,19 +1,14 @@
-
-import yahoo_fin.stock_info as si
 from statsmodels.tsa.stattools import adfuller
-import matplotlib.pyplot as plt
 from statsmodels.tsa.arima_model import ARIMA
 from sklearn.metrics import mean_squared_error
 from datetime import timedelta
 import warnings
 from dateutil.relativedelta import *
-import yahoo_fin.stock_info as si
 
 warnings.filterwarnings("ignore")
 
 def PreditctPrices(df,interval, progress_callback):
     train_data, test_data = df[0:int(len(df)*0.8)], df[int(len(df)*0.8):]
-
     training_data = train_data['close'].values
     test_data = test_data['close'].values
 
@@ -102,8 +97,8 @@ def PreditctPrices(df,interval, progress_callback):
             future_dates.append(df.date.iloc[-1] + timedelta(days=+next_period))
         else:
             future_dates.append(df.date.iloc[-1] + relativedelta(months=+next_period))
-    future_dates.insert(0,df.date.iloc[-1])
-    future_predictions.insert(0,df.close.iloc[-1])
+    future_dates.insert(0, df.date.iloc[-1])
+    future_predictions.insert(0, df.close.iloc[-1])
     progress_callback.emit(100)
 
     return future_dates, future_predictions
