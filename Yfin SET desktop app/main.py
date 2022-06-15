@@ -11,7 +11,7 @@ class MenuController(Ui_MainWindow):
 
     def bind_events(self):
         self.actionPrice_History.triggered.connect(self._clicked_show_price_history)
-        # self.actionReport_Analysis.triggered.connect(self._clicked_show_report_analysis)
+        self.actionReport_Analysis.triggered.connect(self._clicked_show_report_analysis)
         # self.actionCandlestick_pattern_recognition.triggered.connect(self._clicked_show_pattern_recognition)
         self.actionStock_Ratios.triggered.connect(self._clicked_show_stock_ratios)
         self.actionTicker_dividends_history.triggered.connect(self._clicked_show_dividend_history)
@@ -38,6 +38,11 @@ class MenuController(Ui_MainWindow):
         from controller.price_controller import ArimaPredictions
         ap_controller = ArimaPredictions()
         ap_controller.exec_()
+
+    def _clicked_show_report_analysis(self):
+        from controller.reports_controller import FinancialReports
+        ra_controller = FinancialReports()
+        ra_controller.exec_()
 
 
 def main():

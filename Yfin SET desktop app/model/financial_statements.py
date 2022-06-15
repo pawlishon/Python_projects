@@ -42,7 +42,10 @@ def get_financial_statements(ticker):
     balance_sheet_valid.loc['currentRatio'] = balance_sheet_valid.loc['currentRatio'].apply(lambda x: round(x, 4))
     balance_sheet_valid.loc['debtToESRatio'] = balance_sheet_valid.loc['totalLiab'] / balance_sheet_valid.loc['totalStockholderEquity']
     balance_sheet_valid.loc['debtToESRatio'] = balance_sheet_valid.loc['debtToESRatio'].apply(lambda x: round(x,4))
-    balance_sheet_valid.loc['longOverShortDebt'] = balance_sheet_valid.loc['longTermDebt'] > balance_sheet_valid.loc['shortLongTermDebt']
+    try:
+        balance_sheet_valid.loc['longOverShortDebt'] = balance_sheet_valid.loc['longTermDebt'] > balance_sheet_valid.loc['shortLongTermDebt']
+    except KeyError:
+        None
 
     master_table = pd.concat([income_statement_valid, balance_sheet_valid, cash_flow_valid])
     master_table.loc['returnOnShareholdersEquity'] = master_table.loc['netIncome'] / master_table.loc['totalStockholderEquity']
@@ -59,9 +62,12 @@ def get_financial_statements(ticker):
                     'returnOnShareholdersEquity'}
     ratios = master_table.loc[master_table['Breakdown'].isin(ratios_names)]
     master_table = master_table.loc[~master_table['Breakdown'].isin(ratios_names)]
-    for column in master_table.columns:
-        if column != 'Breakdown':
-            master_table[column] = master_table[column].astype(int)
+    try:
+        for column in master_table.columns:
+            if column != 'Breakdown':
+                master_table[column] = master_table[column].astype(int)
+    except:
+        None
 
     return master_table, ratios
 
