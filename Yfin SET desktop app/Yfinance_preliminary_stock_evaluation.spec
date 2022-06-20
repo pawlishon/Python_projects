@@ -4,7 +4,7 @@
 block_cipher = None
 
 
-a = Analysis(['Yfinance_preliminary_stock_evaluation.py'],
+a = Analysis(['main.py'],
              pathex=['C:\\Users\\6112272\\My Projects\\Python_projects\\Yfin SET desktop app'],
              binaries=[],
              datas=[],
@@ -34,7 +34,7 @@ exe = EXE(pyz,
           splash, 
           splash.binaries,
           [],
-          name='Yfinance_preliminary_stock_evaluation',
+          name='SET',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,

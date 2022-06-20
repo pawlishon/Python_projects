@@ -23,6 +23,11 @@ def home_alternative():
     return render_template('Home.html')
 
 
+@app.route('/DCCF.html')
+def dccf():
+    return render_template('DCCF.html')
+
+
 @app.route('/About.html')
 def about():
     return render_template('About.html')
@@ -75,7 +80,7 @@ def div_history():
 
 @app.route('/download_desktop_app')
 def download_desktop_app():
-    path = os.getcwd() + "/static/stock_eval_app.exe"
+    path = os.getcwd() + "/static/SET.exe"
     return send_file(path, as_attachment=True)
 
 

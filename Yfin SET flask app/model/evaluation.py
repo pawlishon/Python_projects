@@ -3,35 +3,44 @@ import pandas as pd
 import yahoo_fin.stock_info as si
 import requests
 
-
 def my_valuation(ticker):
     # Quote table
     try:
         key_attributes_quote = ['PE Ratio (TTM)', 'Beta (5Y Monthly)', '1y Target Est', 'EPS (TTM)',
                                 'Previous Close', 'Market Cap']
-        quote = si.get_quote_table(ticker)
-        attr_results = []
-        for attribute in key_attributes_quote:
-            attr_results.append(quote[attribute])
-        attr_results_df = pd.DataFrame([attr_results], columns=key_attributes_quote)
+        try:
+            quote = si.get_quote_table(ticker)
+            attr_results = []
+            for attribute in key_attributes_quote:
+                attr_results.append(quote[attribute])
+            attr_results_df = pd.DataFrame([attr_results], columns=key_attributes_quote)
+        except:
+            attr_results_df = pd.DataFrame([['' for x in key_attributes_quote]], columns=key_attributes_quote)
         attr_results_df['Ticker'] = ticker
 
         # Stats table
-        key_attributes_stats = ['Trailing Annual Dividend Yield 3', '5 Year Average Dividend Yield', 'Payout Ratio 4',
-                                'Revenue Per Share (ttm)', 'Total Debt/Equity (mrq)', 'Current Ratio (mrq)', 'Book Value Per Share (mrq)']
-        stats_table = si.get_stats(ticker)
-        stats_table = stats_table.loc[stats_table['Attribute'].isin(key_attributes_stats)].transpose()
-        stats_table.columns = stats_table.loc['Attribute'].to_list()
-        stats_table = stats_table.loc['Value']
-        stats_table = pd.DataFrame(stats_table)
-        stats_table = stats_table.transpose().reset_index(drop=True)
+        try:
+            stats_table = si.get_stats(ticker)
+            stats_table = stats_table.loc[stats_table['Attribute'].isin(['Trailing Annual Dividend Yield 3', '5 Year Average Dividend Yield', 'Payout Ratio 4', 'Revenue Per Share (ttm)', 'Total Debt/Equity (mrq)', 'Current Ratio (mrq)', 'Profit Margin']), :].transpose()
+            stats_table.columns = stats_table.iloc[0, :]
+            stats_table = stats_table.iloc[1, :]
+            stats_table = pd.DataFrame(stats_table)
+            stats_table = stats_table.transpose().reset_index(drop=True)
+        except:
+            stats_table = pd.DataFrame(['', '', '', '', '', '']).transpose()
+            stats_table.columns = ['Trailing Annual Dividend Yield 3', '5 Year Average Dividend Yield', 'Payout Ratio 4', 'Revenue Per Share (ttm)', 'Total Debt/Equity (mrq)', 'Current Ratio (mrq)', 'Profit Margin']
 
         # Stats valuation
-        val = si.get_stats_valuation(ticker).iloc[[4, 5, 6], :].transpose()
-        val.columns = val.iloc[0, :]
-        val = val.iloc[1, :]
-        val = pd.DataFrame(val)
-        val = val.transpose().reset_index(drop=True)
+        try:
+            val = si.get_stats_valuation(ticker)
+            val = val.loc[val[val.columns[0]].isin(['PEG Ratio (5 yr expected)', 'Price/Book (mrq)']), :].transpose()
+            val.columns = val.iloc[0, :]
+            val = val.iloc[1, :]
+            val = pd.DataFrame(val)
+            val = val.transpose().reset_index(drop=True)
+        except:
+            val = pd.DataFrame(['', '']).transpose()
+            val.columns = ['PEG Ratio (5 yr expected)', 'Price/Book (mrq)']
         # Analysts recommendation
         lhs_url = 'https://query2.finance.yahoo.com/v10/finance/quoteSummary/'
         rhs_url = '?formatted=true&crumb=swg7qs5y9UP&lang=en-US&region=US&' \
@@ -65,14 +74,13 @@ def my_valuation(ticker):
         horizontal_stack = horizontal_stack[cols]
         return horizontal_stack
     except:
-        a = pd.DataFrame(columns=['Ticker', 'Trailing Annual Dividend Yield 3', '5 Year Average Dividend Yield 4',
-                                  'Payout Ratio 4', 'Revenue Per Share (ttm)', 'Total Debt/Equity (mrq)',
-                                  'Current Ratio (mrq)',
-                                  'Book Value Per Share (mrq)', 'Recommendation', 'Company Summary',
-                                  'PEG Ratio (5 yr expected) 1', 'Price/Sales (ttm)', 'Price/Book (mrq)',
+        a = pd.DataFrame(columns=['Ticker', 'Trailing Annual Dividend Yield 3', '5 Year Average Dividend Yield',
+                                  'Payout Ratio 4', 'Revenue Per Share (ttm)', 'Total Debt/Equity (mrq)', 'Current Ratio (mrq)',
+                                  'Profit Margin', 'Recommendation', 'Company Summary',
+                                  'PEG Ratio (5 yr expected) 1', 'Price/Book (mrq)',
                                   'PE Ratio (TTM)',
                                   'Beta (5Y Monthly)', '1y Target Est', 'EPS (TTM)', 'Previous Close', 'Market Cap'])
-        a.loc[0] = [ticker, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
+        a.loc[0] = [ticker, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
         return a
 
 
