@@ -46,15 +46,15 @@ def financial_statements():
     else:
         plt_image = 'images/default-logo.png'
     if 'fs1' not in session.keys() and 'fs2' not in session.keys():
-        return render_template('Financial-Statements.html', plt_reports = plt_image, ticker1='First Company', ticker2='Second Company')
+        return render_template('Financial-Statements.html', plt_reports=plt_image, ticker1='First Company', ticker2='Second Company')
     elif 'fs1' in session.keys() and 'fs2' not in session.keys():
         table1 = pd.read_json(session['fs1'])
         ratios1 = pd.read_json(session['ratios_1'])
-        return render_template('Financial-Statements.html', table1=table1.to_html(header=True, index=False).replace('dataframe', 'table-style'), plt_reports = plt_image, ticker1=session['report_ticker_1'], ticker2='Second Company', ratios1=ratios1.to_html(header=True, index=False).replace('dataframe', 'table-style'))
+        return render_template('Financial-Statements.html', table1=table1.to_html(header=True, index=False).replace('dataframe', 'table-style'), plt_reports=plt_image, ticker1=session['report_ticker_1'], ticker2='Second Company', ratios1=ratios1.to_html(header=True, index=False).replace('dataframe', 'table-style'))
     elif 'fs1' not in session.keys() and 'fs2' in session.keys():
         table2 = pd.read_json(session['fs2'])
         ratios2 = pd.read_json(session['ratios_2'])
-        return render_template('Financial-Statements.html', table2=table2.to_html(header=True, index=False).replace('dataframe', 'table-style'), plt_reports = plt_image, ticker1='First Company', ticker2=session['report_ticker_2'], ratios2=ratios2.to_html(header=True, index=False).replace('dataframe', 'table-style'))
+        return render_template('Financial-Statements.html', table2=table2.to_html(header=True, index=False).replace('dataframe', 'table-style'), plt_reports=plt_image, ticker1='First Company', ticker2=session['report_ticker_2'], ratios2=ratios2.to_html(header=True, index=False).replace('dataframe', 'table-style'))
     else:
         table1 = pd.read_json(session['fs1'])
         table2 = pd.read_json(session['fs2'])
@@ -65,7 +65,10 @@ def financial_statements():
 
 @app.route('/Price-History.html')
 def price_history():
-    return render_template('Price-History.html', plt='images/default-logo.png')
+    if 'image_pred' not in session.keys():
+        return render_template('Price-History.html', plt='images/default-logo.png')
+    else:
+        return render_template('Price-History.html', plt=session['image_pred']['filepath'])
 
 
 @app.route('/Download.html')
@@ -106,7 +109,7 @@ def get_ticker():
 @app.route('/ticker_list', methods=['POST'])
 def ticker_list():
     if request.form.get('Remove last') == 'Remove last':
-        if len(list(session['tickers'].keys()))>0:
+        if len(list(session['tickers'].keys())) > 0:
             session['tickers'].pop(list(session['tickers'].keys())[-1])
             session['Is On'] = True
             return redirect(url_for('stock_evaluation'))
@@ -133,7 +136,7 @@ def ticker_list():
 
 @app.route('/evaluate', methods=['POST'])
 def evaluate():
-    instrument_list = [item for item in session['tickers'].keys() if item!='result']
+    instrument_list = [item for item in session['tickers'].keys() if item != 'result']
     results = ResultJoin(instrument_list)
     results = results.drop(['Company Summary'], axis=1)
     results.reset_index(drop=True, inplace=True)
@@ -151,7 +154,7 @@ def export_to_excel():
 
 @app.route('/upload_file', methods=['POST'])
 def upload_file():
-    if request.method=='POST':
+    if request.method == 'POST':
         session['Is On'] = True
         f = request.files['file']
         full_name = 'tickers' + secure_filename(f.filename)
@@ -163,7 +166,7 @@ def upload_file():
         return redirect(url_for('stock_evaluation'))
 
 
-@app.route('/dividends', methods=['GET','POST'])
+@app.route('/dividends', methods=['GET', 'POST'])
 def dividends():
     if request.method == 'POST':
         try:
@@ -182,10 +185,10 @@ def dividends():
                 data.columns = ['Date', 'Amount USD', 'Ticker']
                 plt.figure()
                 plt.plot(data['Date'], data['Amount USD'])
-                path = os.getcwd()+'\static\images\plot_' + str(date.today()) + '.png'
+                path = os.getcwd() + '\static\images\plot_' + str(date.today()) + '.png'
                 plt.savefig(path)
                 plt.clf()
-                return render_template('Dividends-History.html', table=data.to_html(classes='data', header=True, index=False), plt = 'images/plot_' + str(date.today()) + '.png')
+                return render_template('Dividends-History.html', table=data.to_html(classes='data', header=True, index=False), plt='images/plot_' + str(date.today()) + '.png')
         except ValueError:
             flash('Invalid ticker!')
             return redirect(url_for('div_history'))
@@ -195,40 +198,43 @@ def dividends():
 
 @app.route('/prices', methods=['GET', 'POST'])
 def prices():
-    if request.method=='POST':
+    if request.method == 'POST':
         ticker = request.form.get('ticker')
         start_date = request.form.get('start_date')
         end_date = request.form.get('end_date')
         option = request.form.get('menu')
-        if option==0:
+        if option == 0:
             option = '1d'
-        elif option==1:
+        elif option == 1:
             option = '1mo'
         else:
             option = '1wk'
         start_date = start_date[5:7] + '/' + start_date[-2:] + '/' +start_date[:4]
         end_date = end_date[5:7] + '/' + end_date[-2:] + '/' + end_date[:4]
+        session['prices_options'] = {'ticker': ticker, 'start_date': start_date, 'end_date': end_date, 'option': option}
         price = si.get_data(ticker, start_date=start_date, end_date=end_date, index_as_date=False, interval=option)
-        session['prices'] =price.to_json()
+        # session['prices'] = price.to_json()
         session['option'] = option
-        if 'plot_' + str(date.today()) + '.png' in os.listdir('static/images'):
-            os.remove(os.getcwd() + '\\static\\images\\' + 'plot_prices' + str(date.today()) + '.png')
+        # if 'plot_' + str(date.today()) + '.png' in os.listdir('static/images'):
+        #     os.remove(os.getcwd() + '\\static\\images\\' + 'plot_prices' + str(date.today()) + '.png')
         plt.figure()
         plt.plot(price['date'], price['close'])
-        path = os.getcwd() + '\static\images\plot_prices' + str(date.today()) + '.png'
+        plt.title('Prices Chart')
+        plt.xticks(rotation=90)
+        plt.tight_layout()
+        path = os.getcwd() + r'\static\images\plot_prices' + str(date.today()) + '.png'
         plt.savefig(path)
         plt.clf()
-        return render_template('Price-History.html', plt='images/plot_prices' + str(date.today()) + '.png')
-    else:
-        return redirect(url_for(price_history))
+        session['image_pred'] = {'filepath': 'images/plot_prices' + str(date.today()) + '.png'}
+        session.modified = True
+    return redirect(url_for('price_history'))
 
 
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
-    if request.method=='POST':
-        prices = pd.read_json(session['prices'])
-        #prices['date'] = prices.index
-        #prices.reset_index(drop=True, inplace=True)
+    if request.method == 'POST':
+        #prices = pd.read_json(session['prices'])
+        prices = si.get_data(session['prices_options']['ticker'], start_date=session['prices_options']['start_date'], end_date=session['prices_options']['end_date'], index_as_date=False, interval=session['prices_options']['option'])
         futures = spp.PreditctPrices(prices, session['option'])
         session['futures'] = futures
         if 'plot_prices' + str(date.today()) + '.png' in os.listdir('static/images'):
@@ -236,19 +242,20 @@ def predict():
         plt.figure()
         plt.plot(prices['date'], prices['close'], color='blue', label='Actual Price')
         plt.plot(futures[0], futures[1], color='red', label='Future Price')
-        plt.title('Prices Chart')
+        plt.xticks(rotation=90)
+        plt.tight_layout()
+        plt.title('Prices Predictions Chart')
         plt.legend()
         path = os.getcwd() + '\static\images\plot_prices_pred' + str(date.today()) + '.png'
         plt.savefig(path)
         plt.clf()
-        return render_template('Price-History.html', plt='images/plot_prices_pred' + str(date.today()) + '.png')
-    else:
-        return redirect(url_for('price_history'))
+        session['image_pred']['filepath'] = 'images/plot_prices_pred' + str(date.today()) + '.png'
+    return redirect(url_for('price_history'))
 
 
 @app.route('/report_comp_1', methods=['GET', 'POST'])
 def report_comp_1():
-    if request.method=='POST':
+    if request.method == 'POST':
         try:
             ticker = request.form.get('ticker1')
             session['report_ticker_1'] = ticker

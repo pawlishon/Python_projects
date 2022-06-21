@@ -61,7 +61,7 @@ def get_financial_statements(ticker):
     master_table = master_table.loc[~master_table['Breakdown'].isin(ratios_names)]
     for column in master_table.columns:
         if column != 'Breakdown':
-            master_table[column] = master_table[column].astype(int)
+            master_table[column] = master_table[column].astype(pd.Int64Dtype())
 
     return master_table, ratios
 
