@@ -82,24 +82,31 @@ def plot_vol_hist(df, ax):
     fplt.bar(df.Volume, ax=ax)
 
 
-def plot_ta(ticker, start_date, end_date, bb:bool = True, rsi: bool = True, ma: bool = True, vol: bool = True, patterns:bool = True):
+def plot_ta(ticker, start_date, end_date, bb:bool = True, rsi: bool = True, ma: bool = True, vol: bool = True, patterns:bool = True, short: int = 10, long: int = 50):
     # today = date.today().strftime('%Y-%m-%d')
-    rows = 0
+    rows = 1
     if vol:
         rows += 1
     if rsi:
         rows +=1
     df = yf.download(ticker, start=start_date, end=end_date)
-    ax, ax2, ax3 = fplt.create_plot(f'Technical Analysis for {ticker}', rows=rows)
+    if rows == 1:
+        ax = fplt.create_plot(f'Technical Analysis for {ticker}', rows=rows)
+    elif rows ==2:
+        ax, ax2 = fplt.create_plot(f'Technical Analysis for {ticker}', rows=rows)
+    else:
+        ax, ax2, ax3 = fplt.create_plot(f'Technical Analysis for {ticker}', rows=rows)
     fplt.candlestick_ochl(df[['Open', 'Close', 'High', 'Low']], ax=ax)
     if bb:
         plot_bollinger_bands(df, ax)
     if rsi:
         plot_rsi(df, ax2)
     if ma:
-        plot_moving_average(df, ax, 10, 50)
-    if vol:
+        plot_moving_average(df, ax, short, long)
+    if vol and rsi:
         plot_vol_hist(df, ax3)
+    if vol and not rsi:
+        plot_vol_hist(df, ax2)
     if patterns:
         plot_patterns(df, ax)
     fplt.show()
