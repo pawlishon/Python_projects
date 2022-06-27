@@ -13,7 +13,7 @@ class MenuController(Ui_MainWindow):
     def bind_events(self):
         self.actionPrice_History.triggered.connect(self._clicked_show_price_history)
         self.actionReport_Analysis.triggered.connect(self._clicked_show_report_analysis)
-        # self.actionCandlestick_pattern_recognition.triggered.connect(self._clicked_show_pattern_recognition)
+        self.actionCandlestick_pattern_recognition.triggered.connect(self._clicked_show_technical_analysis)
         self.actionStock_Ratios.triggered.connect(self._clicked_show_stock_ratios)
         self.actionTicker_dividends_history.triggered.connect(self._clicked_show_dividend_history)
         # self.actionValuation_of_Stock_price.triggered.connect(self._clicked_show_valuation_of_stock)
@@ -44,6 +44,11 @@ class MenuController(Ui_MainWindow):
         from controller.reports_controller import FinancialReports
         ra_controller = FinancialReports()
         ra_controller.exec_()
+
+    def _clicked_show_technical_analysis(self):
+        from controller.ta_controller import Technical_Analysis
+        ta_controller = Technical_Analysis()
+        ta_controller.exec_()
 
 
 def main():

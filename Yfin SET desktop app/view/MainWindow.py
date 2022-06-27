@@ -200,7 +200,7 @@ class Ui_MainWindow(object):
         self.actionPrice_History = QtWidgets.QAction(MainWindow)
         self.actionPrice_History.setObjectName("actionPrice_History")
         self.actionCandlestick_pattern_recognition = QtWidgets.QAction(MainWindow)
-        self.actionCandlestick_pattern_recognition.setEnabled(False)
+        self.actionCandlestick_pattern_recognition.setEnabled(True)
         self.actionCandlestick_pattern_recognition.setObjectName("actionCandlestick_pattern_recognition")
         self.actionReport_Analysis = QtWidgets.QAction(MainWindow)
         self.actionReport_Analysis.setObjectName("actionReport_Analysis")
