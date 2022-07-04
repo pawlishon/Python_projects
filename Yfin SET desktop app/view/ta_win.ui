@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>455</width>
-    <height>564</height>
+    <width>1176</width>
+    <height>754</height>
    </rect>
   </property>
   <property name="palette">
@@ -457,155 +457,182 @@
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Ticker:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="tickerEdit"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Start date:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QDateEdit" name="dateEditStart">
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>End date:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QDateEdit" name="dateEditEnd">
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBoxBB">
        <property name="font">
         <font>
          <pointsize>11</pointsize>
         </font>
        </property>
        <property name="text">
-        <string>Ticker:</string>
+        <string>Bollinger bands</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="tickerEdit"/>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_2">
+     <item>
+      <widget class="QCheckBox" name="checkBoxRSI">
        <property name="font">
         <font>
          <pointsize>11</pointsize>
         </font>
        </property>
        <property name="text">
-        <string>Start date:</string>
+        <string>RSI oscillator</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QDateEdit" name="dateEditStart">
-       <property name="calendarPopup">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_3">
+     <item>
+      <widget class="QCheckBox" name="checkBoxVol">
        <property name="font">
         <font>
          <pointsize>11</pointsize>
         </font>
        </property>
        <property name="text">
-        <string>End date:</string>
+        <string>Volume</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QDateEdit" name="dateEditEnd">
-       <property name="calendarPopup">
-        <bool>true</bool>
+     <item>
+      <widget class="QCheckBox" name="checkBoxPR">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Pattern recognition</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QCheckBox" name="checkBoxMA">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Moving averages A1:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEditA1"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>A2:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEditA2"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Show</string>
        </property>
       </widget>
      </item>
     </layout>
+   </item>
+   <item row="0" column="1" rowspan="2">
+    <widget class="QGraphicsView" name="graphicsView">
+     <property name="minimumSize">
+      <size>
+       <width>671</width>
+       <height>721</height>
+      </size>
+     </property>
+    </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QCheckBox" name="checkBoxBB">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
-     <property name="text">
-      <string>Bollinger bands</string>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>477</height>
+      </size>
      </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QCheckBox" name="checkBoxRSI">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>RSI oscillator</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QCheckBox" name="checkBoxVol">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Volume</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QCheckBox" name="checkBoxPR">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Pattern recognition</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QCheckBox" name="checkBoxMA">
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Moving averages A1:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEditA1"/>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_4">
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>A2:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEditA2"/>
-     </item>
-    </layout>
-   </item>
-   <item row="6" column="0">
-    <widget class="QPushButton" name="pushButton">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Show</string>
-     </property>
-    </widget>
+    </spacer>
    </item>
   </layout>
  </widget>

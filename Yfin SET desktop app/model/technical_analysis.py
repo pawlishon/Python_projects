@@ -3,6 +3,9 @@ import talib
 import finplot as fplt
 import numpy as np
 
+ticker = 'AMZN'
+start_date = '2022-01-07'
+end_date = '2022-07-01'
 
 def plot_patterns(df, ax, ms: bool = True, es: bool = True, eng: bool = True, hm: bool = True):
     min_price = df['Low'].min()
@@ -111,4 +114,4 @@ def plot_ta(ticker, start_date, end_date, bb:bool = True, rsi: bool = True, ma: 
         plot_patterns(df, ax)
     fplt.show()
 
-
+plot_ta(ticker, start_date, end_date)

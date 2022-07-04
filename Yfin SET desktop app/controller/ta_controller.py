@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QMessageBox, QDialog
 from view.ta_win import *
 from model.technical_analysis import plot_ta
+from helpers.PyQTWorker import *
 
 class Technical_Analysis(QDialog):
     def __init__(self):
@@ -8,6 +9,7 @@ class Technical_Analysis(QDialog):
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         self.bind_events()
+
 
     def bind_events(self):
         self.ui.lineEditA1.setEnabled(False)
@@ -24,7 +26,8 @@ class Technical_Analysis(QDialog):
             self.ui.lineEditA1.setEnabled(False)
             self.ui.lineEditA2.setEnabled(False)
 
-    def show_plot(self):
+
+    def show_plot(self, progress_callback):
         ticker = self.ui.tickerEdit.text()
         start_date = self.ui.dateEditStart.date().toPyDate().strftime('%Y-%m-%d')
         end_date = self.ui.dateEditEnd.date().toPyDate().strftime('%Y-%m-%d')
@@ -48,3 +51,6 @@ class Technical_Analysis(QDialog):
         if self.ui.checkBoxRSI.isChecked():
             rsi = True
         plot_ta(ticker, start_date, end_date, bb, rsi, ma, vol, pattern, short, long)
+
+
+

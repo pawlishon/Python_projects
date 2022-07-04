@@ -9,6 +9,7 @@ class MenuController(Ui_MainWindow):
         self.setupUi(window)
         window.setWindowTitle('Tool for stock evaluation - by Pawel Piatkowski')
         self.bind_events()
+        self.actionCandlestick_pattern_recognition.setEnabled(False)
 
     def bind_events(self):
         self.actionPrice_History.triggered.connect(self._clicked_show_price_history)
