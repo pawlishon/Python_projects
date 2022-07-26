@@ -31,7 +31,8 @@ res_df.to_excel('sp500.xlsx', header=True, index=False)
 
 
 # quoteSummary
-for ticker in sp500_tickers[:90]:
+sp500_tickers = si.tickers_sp500()
+for ticker in sp500_tickers[490:]:
     url_2 = 'https://yfapi.net/v11/finance/quoteSummary/' + ticker
     headers = {
         'x-api-key': "AkPEywBHa11Qwn1Z2Mdbe9hTTSVYRACo6v8HLxM6"
@@ -42,3 +43,4 @@ for ticker in sp500_tickers[:90]:
     result_dict = json.loads(data)
     with open(f'{ticker}.json', 'w') as fp:
         json.dump(result_dict['quoteSummary']['result'][0], fp)
+
