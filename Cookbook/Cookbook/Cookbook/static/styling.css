@@ -1,0 +1,12 @@
+.center {
+margin-left: 30%;
+margin-right: 30%;
+background: #b5e7a0;
+}
+
+.search-form {
+background: #e3eaa7;
+border-radius: 25px;
+border: 2px solid #73AD21;
+padding: 20px
+}

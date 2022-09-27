@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Książka kucharska</title>
+    <link rel="stylesheet" href="{% static 'styling.css' %}" media="screen">
+</head>
+<body class="center">
+<img src="{% static 'gotowanie.jpg' %}" alt="Cooking">
+<main></main>
+<ul>
+    {% for recipe in recipies %}
+    <li>
+        <a href="{% url 'recipe_detail' recipe.file %}">
+            {{recipe.title|capfirst}}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+<script src="{% static 'create_form.js' %}"></script>
+</body>
+</html>

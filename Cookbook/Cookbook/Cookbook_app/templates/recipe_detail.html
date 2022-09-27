@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>{{recipe.title}}</title>
+    <link rel="stylesheet" href="{% static 'styling.css' %}" media="screen">
+</head>
+<body class="center">
+<a href="/">
+<img src="{% static 'gotowanie.jpg' %}" alt="Cooking" href="/">
+    </a>
+<h1>{{recipe.title}}</h1>
+<div>{{recipe.content|safe}}</div>
+</body>
+</html>
