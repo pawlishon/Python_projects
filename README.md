@@ -1,6 +1,6 @@
 # Python_projects
 
-The repo contains mostly a stock evaluation tool in 2 versions (Desktop and web app) together with some Machine Learning projects for data I found on Kaggle. 
+The repo contains the stock evaluation tool in 2 versions (Desktop and web app) together with some Machine Learning projects for data I found on Kaggle and the web application for polish cooking recipies made in Django. 
 
 # Yfinanace SET (Stock Evaluation Tool)
 
@@ -21,5 +21,10 @@ It is created in PyQT library. Intended for personal use for large amount of dat
 # Web app.
 
 Created in flask. If you'd like to see how it looks like, please contact me on paw.piatkowski7@gmail.com and I will set up a server for the app to work on. Due to a limited resources the app is not intended for processing large amount of data, hence the possibility of downloading desktop app is there included. 
+
+# Django recipies app
+The app is a browser of recipies I have stored on my external server in MySQL Database. It allows user to browse recipies by title and/or category and redirects to recipe page. Page content is in Polish. 
+I run this app as well as the database and Ubuntu machine and deploy using MySQL server together with Apache server for the app.
+If you want to see how does it work just let me know and I'll set it up.
 
 
