@@ -2,12 +2,24 @@ from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from .models import Recipe
 from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def home(request):
     recipies = Recipe.objects.all()
-    return render(request, 'home.html', {'recipies': recipies})
-    # return HttpResponse('<p> Home View </p>')
+    # Pagination
+    paginator = Paginator(recipies, per_page=50)
+    page_num = request.GET.get('page', 1)
+    try:
+        page_obj = paginator.page(page_num)
+    except PageNotAnInteger:
+        # if page is not an integer, deliver the first page
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        # if the page is out of range, deliver the last page
+        page_obj = paginator.page(paginator.num_pages)
+    return render(request, 'home.html', {'page_obj': page_obj})
+
 
 
 def recipe_detail(request, file_no):
@@ -21,7 +33,6 @@ def recipe_detail(request, file_no):
 def search_results(request):
     title = request.GET.get("title")
     category = request.GET.get("categorylist")
-    print(title, category)
     if category == 'Dowolna' and title != '':
         recipies = Recipe.objects.filter(Q(title__icontains=title))
     elif category != 'Dowolna' and title != '':
@@ -30,4 +41,16 @@ def search_results(request):
         recipies = Recipe.objects.filter(Q(category=category))
     elif category == 'Dowolna' and title == '':
         recipies = Recipe.objects.all()
-    return render(request, 'home.html', {'recipies': recipies})
+
+    # Pagination
+    paginator = Paginator(recipies, per_page=50)
+    page_num = request.GET.get('page', 1)
+    try:
+        page_obj = paginator.page(page_num)
+    except PageNotAnInteger:
+        # if page is not an integer, deliver the first page
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        # if the page is out of range, deliver the last page
+        page_obj = paginator.page(paginator.num_pages)
+    return render(request, 'home.html', {'page_obj': page_obj})
