@@ -1,5 +1,5 @@
 from statsmodels.tsa.stattools import adfuller
-from statsmodels.tsa.arima_model import ARIMA
+from statsmodels.tsa.arima.model import ARIMA
 from sklearn.metrics import mean_squared_error
 from datetime import timedelta
 import warnings
@@ -35,7 +35,7 @@ def PreditctPrices(df, interval, progress_callback):
             try:
                 for time_point in range(N_test_observations):
                     model = ARIMA(history, order=(p, d, q))
-                    model_fit = model.fit(disp=0)
+                    model_fit = model.fit()
                     output = model_fit.forecast()
                     yhat = output[0]
                     model_predictions.append(yhat)
@@ -45,7 +45,7 @@ def PreditctPrices(df, interval, progress_callback):
                 if MSE_error<lowest_MSE_err:
                     lowest_MSE_err = MSE_error
                     params = [p, d, q]
-            except:
+            except ValueError:
                 None
 
 
