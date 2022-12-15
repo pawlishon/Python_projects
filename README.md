@@ -1,7 +1,3 @@
-# Python_projects
-
-The repo contains the stock evaluation tool in 2 versions (Desktop and web app) together with some Machine Learning projects for data I found on Kaggle and the web application for polish cooking recipies made in Django. 
-
 # Yfinanace SET (Stock Evaluation Tool)
 
 The  stock evaluation tool is getting its data from Yahoo finance. I created several tools for processing these informations to get the view of the companies conditions in order to identify companies with durable competitive advantage.
@@ -26,5 +22,21 @@ Created in flask. If you'd like to see how it looks like, please contact me on p
 The app is a browser of recipies I have stored on my external server in MySQL Database. It allows user to browse recipies by title and/or category and redirects to recipe page. Page content is in Polish. 
 I run this app as well as the database and Ubuntu machine and deploy using MySQL server together with Apache server for the app.
 If you want to see how does it work just let me know and I'll set it up.
+
+# Yoga bot
+From time to time I attend yoga classes. There are a lot of people willing to participate and the number of attendees is limited.
+There is the website app set up by provider in order to keep track of people signing up for classes. In that system you can choose the class you want to attend exactly 1 week before it starts (to single second). Most interesting classes are being filled within 3 min from the start. It's very hard to sign up if you are not paying attention a week before a start.
+That's why I invented this script. After initialization it opens selenium driver which navigates through browser and signs up to all classes provided in input file. In order to work you need also to provide your credentials. The input reservations.txt file should have a line for every class a person wants to attend. Example line below:
+email@gmail.com,password,2022-12-19,SALA 2,VINJASA 0,20:00
+(webpage is in Polish)
+There can be multiple classes or users in input file.
+The script should be initialized at specific time. To do that I create a .bat file which opens python and this script. The bat file is initialized by Window Task Scheduler.
+
+# NBA match checker
+I'm a big NBA fan and I watch a lot of games. Not all matches are good. I try not to check the results before watching any match, which was causing me to watch a lot of bad games, since I was choosing them at random. That's why I decided to create a program which will help me choose the most interesting game without giving me result explicitly.
+The tool goes to NBA webpage and scrapps the results together with leaderboard. Then it assigns points to every match for things that I like watching the game (close match, two teams that have similar records, big statlines for the leader, overtimes and so on). At the end the result file is produced with the teams and the match score. The bigger, the better the match is.
+
+# Unrelated scripts
+Scripts mostly with machine learning projects, which I wrote learning these techniques. Except that there is also one bot program and some scripts I used for my stock data database. One scripts tests as well CAPM model (Capital Asset Pricing Model) and whether it is true that expected payoff from the stock investment is linearly dependent on the risk taken. 
 
 
