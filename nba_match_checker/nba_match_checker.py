@@ -52,12 +52,12 @@ for i in range(len(matches_df)):
         matches_df.loc[i, 'MATCH_RESULT'] += 2
 
 for i in range(len(matches_df)):
-    if matches_df.loc[i, 'AL_PTS'] > 30 or matches_df.loc[i, 'HL_PTS'] > 30:
-        matches_df.loc[i, 'MATCH_RESULT'] += 1
+    if matches_df.loc[i, 'AL_PTS'] > 50 or matches_df.loc[i, 'HL_PTS'] > 50:
+        matches_df.loc[i, 'MATCH_RESULT'] += 3
     elif matches_df.loc[i, 'AL_PTS'] > 40 or matches_df.loc[i, 'HL_PTS'] > 40:
         matches_df.loc[i, 'MATCH_RESULT'] += 2
-    elif matches_df.loc[i, 'AL_PTS'] > 50 or matches_df.loc[i, 'HL_PTS'] > 50:
-        matches_df.loc[i, 'MATCH_RESULT'] += 3
+    elif matches_df.loc[i, 'AL_PTS'] > 30 or matches_df.loc[i, 'HL_PTS'] > 30:
+        matches_df.loc[i, 'MATCH_RESULT'] += 1
 
 for i in range(len(matches_df)):
     if matches_df.loc[i, 'AL_REB'] > 20 or matches_df.loc[i, 'HL_REB'] > 20:
