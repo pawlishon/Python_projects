@@ -36,6 +36,9 @@ The script should be initialized at specific time. To do that I create a .bat fi
 I'm a big NBA fan and I watch a lot of games. Not all matches are good. I try not to check the results before watching any match, which was causing me to watch a lot of bad games, since I was choosing them at random. That's why I decided to create a program which will help me choose the most interesting game without giving me result explicitly.
 The tool goes to NBA webpage and scrapps the results together with leaderboard. Then it assigns points to every match for things that I like watching the game (close match, two teams that have similar records, big statlines for the leader, overtimes and so on). At the end the result file is produced with the teams and the match score. The bigger, the better the match is.
 
+The script is also available on Google Colab under:
+https://colab.research.google.com/drive/1mqOj9nRETdq9bFkmoUzpJOBoxHmPXWjI?usp=sharing
+
 # Unrelated scripts
 Scripts mostly with machine learning projects, which I wrote learning these techniques. Except that there is also one bot program and some scripts I used for my stock data database. One scripts tests as well CAPM model (Capital Asset Pricing Model) and whether it is true that expected payoff from the stock investment is linearly dependent on the risk taken. 
 
