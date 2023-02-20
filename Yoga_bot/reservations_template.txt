@@ -1,0 +1,2 @@
+email,password,2023-02-27,SALA 1,JOGA I,16:00
+email,password,2023-02-27,SALA 1,JOGA I,16:00
