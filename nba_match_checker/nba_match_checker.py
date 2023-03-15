@@ -3,13 +3,29 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import datetime
 from dateutil.relativedelta import relativedelta
+from selenium import webdriver, common
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
 MATCH_DAY = (datetime.date.today() - relativedelta(days=1)).strftime('%Y-%m-%d')
 
 # MATCH_DAY = '2022-12-07'
 
-r = requests.get(f'https://www.nba.com/games?date={MATCH_DAY}')
-soup = BeautifulSoup(r.text, 'html.parser')
+# Pick one of the following options
+
+# Requests
+# r = requests.get(f'https://www.nba.com/games?date={MATCH_DAY}')
+# soup = BeautifulSoup(r.text, 'html.parser')
+
+# Selenium
+options = Options()
+options.add_argument('--headless')
+options.add_argument('--disable-gpu')
+driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+driver.get(f'https://www.nba.com/games?date={MATCH_DAY}')
+soup = BeautifulSoup(driver.page_source, 'html.parser')
+
+
 matches = []
 for game in soup.findAll('div', {'class': "GameCard_gc__UCI46 GameCardsMapper_gamecard__pz1rg"}):
     teams = []
@@ -28,9 +44,10 @@ for game in soup.findAll('div', {'class': "GameCard_gc__UCI46 GameCardsMapper_ga
     for pra in game.findAll('td'):
         if pra.text.isdigit():
             leaders.append(int(pra.text))
-
     matches.append([teams[0], records[0], scores[0], teams[1], records[1], scores[1], final_result,
                     leaders[0], leaders[1], leaders[2], leaders[3], leaders[4], leaders[5]])
+
+
 
 matches_df = pd.DataFrame(matches, columns=['AWAY', 'AWAY_RECORD', 'AWAY_SCORE',
                                             'HOME', 'HOME_RECORD', 'HOME_SCORE', 'RESULT',
