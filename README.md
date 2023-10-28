@@ -37,7 +37,13 @@ I'm a big NBA fan and I watch a lot of games. Not all matches are good. I try no
 The tool goes to NBA webpage and scrapps the results together with leaderboard. Then it assigns points to every match for things that I like watching the game (close match, two teams that have similar records, big statlines for the leader, overtimes and so on). At the end the result file is produced with the teams and the match score. The bigger, the better the match is.
 
 The script is also available on Google Colab under:
-https://colab.research.google.com/drive/1mqOj9nRETdq9bFkmoUzpJOBoxHmPXWjI?usp=sharing
+[Google Colab link](https://colab.research.google.com/drive/1jiW9sD3naQ7MziFuXavsmxtjo9CA-kQw?usp=sharing)
+
+In project files 
+match_excitement_model.ipynb is the newest file that runs in google colab whereas nba_match_checker.py is the old version that should also work with libraries from requirements file. 
+
+# Option price modelling
+This part is my testing of different models for option pricing. The idea of this script was inspired by [Financial Engineering and Risk Management Specialization](https://www.coursera.org/specializations/financialengineering) on Coursera platform hosted by Columbia University. It uses fast fourier transform and characteristic functions to obtain model option prices. Models available are Black-Scholes, Heston and Variance Gamma.
 
 # Unrelated scripts
 Scripts mostly with machine learning projects, which I wrote learning these techniques. Except that there is also one bot program and some scripts I used for my stock data database. One scripts tests as well CAPM model (Capital Asset Pricing Model) and whether it is true that expected payoff from the stock investment is linearly dependent on the risk taken. 
