@@ -1,0 +1,169 @@
+Max return 7% risk
+
+ETFs used: 10
+Weights:  [0. 0. 0. ... 0. 0. 0.]
+Tickers in the optimal portfolio:
+- FUSR.MI: 0.050
+- QDV4.MU: 0.050
+- SML3.MU: 0.088
+- ESIF.DE: 0.140
+- ETLS.DE: 0.107
+- IUSD.DE: 0.081
+- JPPS.DE: 0.201
+- QDVE.DE: 0.180
+- SXR7N.MX: 0.053
+- UEQU.DE: 0.050
+risk = 0.06999999997878759
+return 0.09622346189987074
+
+Min risk 10% return\
+ETFs used: 9
+Weights:  [0. 0. 0. ... 0. 0. 0.]
+Tickers in the optimal portfolio:
+- FUSR.MI: 0.058
+- SML3.MU: 0.095
+- ESIF.DE: 0.137
+- ETLS.DE: 0.107
+- IUSD.DE: 0.082
+- JPPS.DE: 0.221
+- QDVE.DE: 0.195
+- SXR7N.MX: 0.050
+- UEQU.DE: 0.055
+Portfolio risk: 0.07399114695161527
+Portfolio return: 0.1000000000242572
+
+WITH RF asset
+ETFs used: 5
+Weights:  [0.    0.    0.    ... 0.    0.    0.496]
+Tickers in the optimal portfolio:
+- SML3.MU: 0.106
+- ESIF.DE: 0.050
+- ETLS.DE: 0.083
+- IUSD.DE: 0.054
+- QDVE.DE: 0.211
+Invested in RF asset: 0.4960305047789547
+Portfolio risk: 0.06931127248204473
+Portfolio return: 0.10000000000246596
+
+with shrinkage
+ETFs used: 5
+Weights:  [0.    0.    0.    ... 0.    0.    0.497]
+Tickers in the optimal portfolio:
+- SML3.MU: 0.109
+- ESIF.DE: 0.050
+- ETLS.DE: 0.082
+- IUSD.DE: 0.054
+- QDVE.DE: 0.208
+Invested in RF asset: 0.4967871717860205
+Portfolio risk: 0.06896786268838151
+Portfolio return: 0.10000000000969113
+
+with only ETFs that have 80% of data
+Tickers in the optimal portfolio:
+- H4ZN.DE: 0.050
+- SML3.MU: 0.108
+- IUSD.DE: 0.050
+- QDVE.DE: 0.213
+- UEQU.DE: 0.050
+Invested in RF asset: 0.5284682285044598
+Portfolio risk: 0.0702398617479311
+Portfolio return: 0.10000000001979925
+
+ETFs used: 7
+Weights:  [0.   0.   0.   ... 0.   0.   0.02]
+Tickers in the optimal portfolio:
+- H4ZN.DE: 0.050
+- SML3.MU: 0.200
+- ESIF.DE: 0.100
+- ETLS.DE: 0.115
+- IUSD.DE: 0.087
+- QDVE.DE: 0.377
+- UEQU.DE: 0.050
+Invested in RF asset: 0.0202518658070606
+Portfolio risk: 0.12869149027812932
+Portfolio return: 0.15000000000007116
+
+with sector country constraints
+
+Sector Weights:
+TECHNOLOGY: 0.2878
+Other: 0.1500
+
+Country Weights:
+WORLD: 0.0500
+Other: 0.0500
+US: 0.3378
+Tickers in the optimal portfolio:
+- EXXT.DE: 0.050
+- H4ZN.DE: 0.050
+- SML3.MU: 0.105
+- IUSD.DE: 0.050
+- QDVE.DE: 0.182
+Invested in RF asset: 0.5622096583248049
+Portfolio risk: 0.07054505717633681
+Portfolio return: 0.10000000002751036
+
+Sector Weights:
+COMMODITIES: 0.0500
+TECHNOLOGY: 0.2000
+Other: 0.2000
+
+Country Weights:
+WORLD: 0.0506
+US: 0.2000
+Other: 0.1994
+ETFs used: 5
+Tickers in the optimal portfolio:
+- EXXT.DE: 0.149
+- SML3.MU: 0.094
+- IUSD.DE: 0.051
+- QDVE.DE: 0.106
+- UBUD.DE: 0.050
+Invested in RF asset: 0.5500000562246853
+Portfolio risk: 0.07334598396954511
+Portfolio return: 0.1000000000805361
+
+Option 2
+Sector Weights:
+COMMODITIES: 0.0500
+TECHNOLOGY: 0.1500
+FINANCIAL: 0.1500
+Other: 0.1498
+
+Country Weights:
+US: 0.2000
+EUROPE: 0.0500
+WORLD: 0.0500
+Other: 0.1998
+ETFs used: 6
+Tickers in the optimal portfolio:
+- EXXT.DE: 0.150
+- SML3.MU: 0.150
+- EXH2.DE: 0.050
+- LYPD.DE: 0.050
+- QDVH.DE: 0.050
+- UBUD.DE: 0.050
+Invested in RF asset: 0.5002158698157113
+Portfolio risk: 0.08350226573671325
+Portfolio return: 0.10000000007309001
+
+Technology 15% sector weight , rest 20%
+Sector Weights:
+TECHNOLOGY: 0.1500
+FINANCIAL: 0.1000
+Other: 0.2000
+
+Country Weights:
+US: 0.2000
+WORLD: 0.0500
+Other: 0.2000
+ETFs used: 5
+Tickers in the optimal portfolio:
+- EXXT.DE: 0.138
+- SML3.MU: 0.150
+- LYMS.DE: 0.062
+- LYPD.DE: 0.050
+- QDVH.DE: 0.050
+Invested in RF asset: 0.550000002224628
+Portfolio risk: 0.0789961034518895
+Portfolio return: 0.10000000006911161
