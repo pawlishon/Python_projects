@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="67c5802f-7ab2-4a9b-aa38-b09c84d4c3d9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../../Yfin SET desktop app/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Yfin SET desktop app/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Yfin SET desktop app/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Yfin SET desktop app/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Yfin SET desktop app/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../db_scripts/cleaning_sp500.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Yfin SET desktop app/requirements.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../yfapi.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../db_scripts/yfapi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cookbook/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cookbook/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cookbook/static/styling.css" beforeDir="false" afterPath="$PROJECT_DIR$/Cookbook/static/styling.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cookbook/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cookbook/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cookbook_app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cookbook_app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cookbook_app/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/Cookbook_app/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cookbook_app/templates/recipe_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/Cookbook_app/templates/recipe_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cookbook_app/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cookbook_app/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cookbook_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cookbook_app/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/create_form.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/create_form.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/styling.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styling.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,13 +32,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/pawpi/PycharmProjects/Python_projects/Cookbook"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/pawpi/Python_projects/Cookbook/Cookbook&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.github.copilot.settings.ApplicationConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

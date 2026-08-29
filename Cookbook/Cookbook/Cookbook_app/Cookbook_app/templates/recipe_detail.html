@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ recipe.title }}</title>
+    <link rel="stylesheet" href="{% static 'styling.css' %}">
+</head>
+<body class="app-page">
+<div class="app-shell">
+    <aside class="app-sidebar">
+        <h2>Książka kucharska</h2>
+        <nav class="sidebar-menu" aria-label="Menu główne">
+            <a class="menu-button" href="{% url 'home' %}">Strona główna</a>
+            {% if user.is_authenticated %}
+                <a class="menu-button" href="{% url 'favorites' %}">Ulubione</a>
+                <a class="menu-button" href="{% url 'logout' %}">Wyloguj</a>
+            {% else %}
+                <a class="menu-button" href="{% url 'login' %}">Zaloguj</a>
+                <a class="menu-button" href="{% url 'register' %}">Utwórz konto</a>
+            {% endif %}
+        </nav>
+    </aside>
+
+    <main class="main-panel">
+        <header class="page-header">
+            <a href="{% url 'home' %}" class="hero-link">
+                <img class="hero" src="{% static 'gotowanie.jpg' %}" alt="Cooking">
+            </a>
+            <h1>{{ recipe.title }}</h1>
+        </header>
+
+        <article class="recipe-content">
+            {{ recipe.content|safe }}
+        </article>
+    </main>
+</div>
+</body>
+</html>

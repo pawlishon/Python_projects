@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ulubione przepisy</title>
+    <link rel="stylesheet" href="{% static 'styling.css' %}">
+</head>
+<body class="app-page">
+<div class="app-shell">
+    <aside class="app-sidebar">
+        <h2>Książka kucharska</h2>
+        <nav class="sidebar-menu" aria-label="Menu główne">
+            <a class="menu-button" href="{% url 'home' %}">Strona główna</a>
+            <a class="menu-button active" href="{% url 'favorites' %}">Ulubione</a>
+            <a class="menu-button" href="{% url 'shopping_list' %}">Lista zakupów</a>
+            <a class="menu-button" href="{% url 'logout' %}">Wyloguj</a>
+        </nav>
+    </aside>
+
+    <main class="main-panel">
+        <header class="page-header">
+            <img class="hero" src="{% static 'gotowanie.jpg' %}" alt="Cooking">
+            <h1>Ulubione przepisy</h1>
+        </header>
+
+        {% if recipies %}
+            <ul class="recipe-list">
+                {% for recipe in recipies %}
+                    <li>
+                        <article class="recipe-card">
+                            <a class="card-link" href="{% url 'recipe_detail' recipe.file %}">
+                                <h2 class="recipe-title">{{ recipe.title|capfirst }}</h2>
+                            </a>
+                            <p class="recipe-excerpt">{{ recipe.content|striptags|truncatechars:140 }}</p>
+                            <div class="recipe-meta">
+                                <span class="category">{{ recipe.category }}</span>
+                                <span class="difficulty">{{ recipe.difficulty }}</span>
+                            </div>
+                            <div class="recipe-actions">
+                                <form method="post" action="{% url 'toggle_favorite' recipe.file %}" class="inline-form">
+                                    {% csrf_token %}
+                                    <button type="submit" class="favorite-button">Usuń z ulubionych</button>
+                                </form>
+                                <form method="post" action="{% url 'shopping_list_add_recipe' %}" class="inline-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
+                                    <button type="submit" class="favorite-button accent-button">Dodaj składniki do listy</button>
+                                </form>
+                            </div>
+                        </article>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Nie dodałeś jeszcze żadnych ulubionych przepisów.</p>
+        {% endif %}
+    </main>
+</div>
+</body>
+</html>

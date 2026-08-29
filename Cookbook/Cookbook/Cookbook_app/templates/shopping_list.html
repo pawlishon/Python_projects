@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lista zakupów</title>
+    <link rel="stylesheet" href="{% static 'styling.css' %}">
+</head>
+<body class="app-page">
+<div class="app-shell">
+    <aside class="app-sidebar">
+        <h2>Książka kucharska</h2>
+        <nav class="sidebar-menu" aria-label="Menu główne">
+            <a class="menu-button" href="{% url 'home' %}">Strona główna</a>
+            <a class="menu-button" href="{% url 'favorites' %}">Ulubione</a>
+            <a class="menu-button active" href="{% url 'shopping_list' %}">Lista zakupów</a>
+            <a class="menu-button" href="{% url 'logout' %}">Wyloguj</a>
+        </nav>
+    </aside>
+
+    <main class="main-panel">
+        <header class="page-header">
+            <img class="hero" src="{% static 'gotowanie.jpg' %}" alt="Cooking">
+            <h1>Lista zakupów</h1>
+        </header>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p class="form-message">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="ingredient">Dodaj składniki (po jednym w linii lub oddzielone przecinkiem)</label>
+                <textarea id="ingredient" name="ingredient" rows="8" placeholder="np. mąka&#10;masło&#10;jajka"></textarea>
+            </div>
+            <button type="submit" class="primary-button">Dodaj do listy</button>
+        </form>
+
+        {% if items %}
+            <div class="shopping-list-box">
+                <h2>Składniki na liście</h2>
+                <ul class="shopping-list-items">
+                    {% for item in items %}
+                        <li class="shopping-list-item-row">
+                            <span>{{ item.name }}</span>
+                            <form method="post" action="{% url 'shopping_list_remove_item' item.id %}" class="inline-form">
+                                {% csrf_token %}
+                                <button type="submit" class="remove-item-button" aria-label="Usuń składnik {{ item.name }}">Usuń</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="shopping-list-actions">
+                    <form method="post" action="{% url 'shopping_list_send_email' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="primary-button">Wyślij listę na e-mail</button>
+                    </form>
+                    <form method="post" action="{% url 'shopping_list_clear' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="danger-button">Usuń wszystkie</button>
+                    </form>
+                </div>
+            </div>
+        {% else %}
+            <p>Lista zakupów jest pusta. Dodaj składniki lub dodaj przepis z ulubionych.</p>
+        {% endif %}
+    </main>
+</div>
+</body>
+</html>
